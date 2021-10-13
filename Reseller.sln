@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{9EE1DE42
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reseller.Services", "Reseller.Services\Reseller.Services.csproj", "{C7E75A13-0224-46DD-AFDD-65AB86C35388}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reseller.Unit.Tests", "Tests\Reseller.Unit.Tests\Reseller.Unit.Tests.csproj", "{48A59DB1-C892-4A5D-8450-ECE93CC05DC9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reseller.Services.Unit.Tests", "Tests\Reseller.Unit.Tests\Reseller.Services.Unit.Tests.csproj", "{48A59DB1-C892-4A5D-8450-ECE93CC05DC9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reseller.Infrastructure", "Reseller.Infrastructure\Reseller.Infrastructure.csproj", "{B5AF553F-35A9-4391-B564-4A9F3F30284A}"
 EndProject
