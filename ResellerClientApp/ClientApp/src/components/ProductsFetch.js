@@ -51,6 +51,6 @@ export class ProductsFetch extends Component {
   async populateProductsData() {
     const response = await fetch('product');
     const data = await response.json();
-    this.setState({ forecasts: data, loading: false });
+    this.setState({ products: data, loading: false });
   }
 }
