@@ -25,6 +25,7 @@ export class ProductsFetch extends Component {
         <tbody>
           {products.map(product =>
             <tr key={product.productName}>
+              <td>{product.productName}</td>
               <td>{product.netValue}</td>
               <td>{product.taxRate}</td>
             </tr>
