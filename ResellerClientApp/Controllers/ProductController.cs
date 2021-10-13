@@ -1,14 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Reseller.Core.Dtos;
 using Reseller.Services.Interfaces;
-using Swashbuckle.AspNetCore.Annotations;
 
-namespace Reseller.WebApi.Controllers
+namespace ResellerClientApp.Controllers
 {
     public class ProductController : BaseController
     {
@@ -23,10 +19,7 @@ namespace Reseller.WebApi.Controllers
         /// a list of products with standard prices
         /// </summary>
         /// <returns></returns>
-        // TODO remove AllowAnonymous - it's for easing development only
-        [AllowAnonymous]
         [HttpGet]
-        [SwaggerOperation(Description = "Returns a list of products with standard prices")]
         public async Task<IActionResult> GetProducts()
         {
             var products = await _productService.GetProducts();

@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.OpenApi.Models;
 
 namespace Reseller
@@ -28,6 +29,7 @@ namespace Reseller
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            AddAuthenticationAndAuthorization(services);
             AddSwagger(services);
         }
 
@@ -84,6 +86,26 @@ namespace Reseller
                 });
                 c.EnableAnnotations();
             });
+        }
+
+        private void AddAuthenticationAndAuthorization(IServiceCollection services)
+        {
+            services.AddAuthorization(options =>
+                {
+                    options.DefaultPolicy = new AuthorizationPolicyBuilder()
+                        .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+                        .RequireAuthenticatedUser()
+                        .Build();
+                })
+                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    //options.Authority = Configuration["Auth:AadAuthority"];
+                    //options.Audience = Configuration["Auth:Audience"];
+                    options.Authority = "dummyAuthority";
+                    options.Audience = "dummyAudience";
+                    options.RequireHttpsMetadata = false;
+                });
         }
     }
 }
