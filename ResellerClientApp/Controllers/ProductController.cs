@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Reseller.Core.Dtos;
+using Reseller.Core.Enums;
 using Reseller.Services.Interfaces;
 using Reseller.Services.Interfaces.RuleCalculator;
 
@@ -47,6 +48,28 @@ namespace ResellerClientApp.Controllers
             }
 
             return Ok(productsDto);
+        }
+
+        /// <summary>
+        /// Prices endpoint for demo purposes
+        /// </summary>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [HttpGet("prices")]
+        public async Task<IActionResult> GetPrices()
+        {
+            var products = await _productService.GetProducts();
+
+            var sumRegular = _ruleCalculator.Calculate(Rule.RegularPrice, products);
+            var sumDiscount = _ruleCalculator.Calculate(Rule.Discount, products);
+
+            var priceComparison = new PriceComparisonDto()
+            {
+                RegularPrice = sumRegular,
+                DiscountPrice = sumDiscount
+            };
+            
+            return Ok(priceComparison);
         }
     }
 }

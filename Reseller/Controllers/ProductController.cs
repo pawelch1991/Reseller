@@ -42,8 +42,8 @@ namespace Reseller.WebApi.Controllers
 
             var priceComparison = new PriceComparisonDto()
             {
-                DiscountPrice = sumDiscount,
-                RegularPrice = sumRegular
+                RegularPrice = sumRegular,
+                DiscountPrice = sumDiscount
             };
             // TODO map to dto with Automapper
             var productsDto = new List<ProductDto>();
