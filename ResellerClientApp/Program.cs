@@ -4,8 +4,13 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using Reseller.Infrastructure.Modules;
+using Reseller.Services.Modules;
 
 namespace ResellerClientApp
 {
@@ -18,9 +23,24 @@ namespace ResellerClientApp
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
+                .UseServiceProviderFactory(new AutofacServiceProviderFactory())
+                .ConfigureContainer<ContainerBuilder>(builder =>
                 {
-                    webBuilder.UseStartup<Startup>();
-                });
+                    builder.RegisterModule<DatabaseModule>();
+                    builder.RegisterModule<ServicesModule>();
+                })
+                .ConfigureAppConfiguration((hostContext, builder) =>
+                {
+                    builder.SetBasePath(Directory.GetCurrentDirectory())
+                        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                        .AddJsonFile($"appsettings.{hostContext.HostingEnvironment.EnvironmentName}.json",
+                            optional: true, reloadOnChange: true);
+
+                    if (hostContext.HostingEnvironment.EnvironmentName == "Local")
+                    {
+                        builder.AddUserSecrets<Program>();
+                    }
+                })
+                .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
     }
 }

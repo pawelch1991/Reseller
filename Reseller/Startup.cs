@@ -42,7 +42,7 @@ namespace Reseller
             app.UseSwagger();
             app.UseSwaggerUI(s =>
             {
-                s.SwaggerEndpoint("/swagger/v1/swagger.json", "DigitalPost WebAPI V1");
+                s.SwaggerEndpoint("/swagger/v1/swagger.json", "Reseller WebAPI V1");
                 s.RoutePrefix = "swagger";
             });
 
