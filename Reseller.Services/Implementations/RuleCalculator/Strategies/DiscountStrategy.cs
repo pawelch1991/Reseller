@@ -9,7 +9,8 @@ namespace Reseller.Services.Implementations.RuleCalculator.Strategies
     {
         public double Calculate(IEnumerable<Product> products)
         {
-            return products.Count();
+            // TODO add logic based on DiscountPolicies or CustomerAgreements
+            return products.Sum(product => product.NetValue) * 0.9;
         }
     }
 }

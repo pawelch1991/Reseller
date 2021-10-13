@@ -14,9 +14,9 @@ namespace Reseller.Services.Implementations.RuleCalculator
             _calculationStrategies = calculationStrategies;
         }
 
-        public double Calculate(Rule rule, IEnumerable<Product> usage)
+        public double Calculate(Rule rule, IEnumerable<Product> products)
         {
-            return _calculationStrategies[rule].Calculate(usage);
+            return _calculationStrategies[rule].Calculate(products);
         }
     }
 }

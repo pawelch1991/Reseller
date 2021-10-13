@@ -7,9 +7,9 @@ namespace Reseller.Services.Implementations.RuleCalculator.Strategies
 {
     public class RegularStrategy : IRuleCalculatorStrategy
     {
-        public double Calculate(IEnumerable<Product> usage)
+        public double Calculate(IEnumerable<Product> products)
         {
-            return usage.Sum(x => x.NetValue);
+            return products.Sum(x => x.NetValue);
         }
     }
 }

@@ -5,7 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Reseller.Core.Dtos;
+using Reseller.Core.Enums;
 using Reseller.Services.Interfaces;
+using Reseller.Services.Interfaces.RuleCalculator;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Reseller.WebApi.Controllers
@@ -13,10 +15,14 @@ namespace Reseller.WebApi.Controllers
     public class ProductController : BaseController
     {
         private readonly IProductService _productService;
+        private readonly IRuleCalculator _ruleCalculator;
 
-        public ProductController(IProductService productService)
+        public ProductController(
+            IProductService productService, 
+            IRuleCalculator ruleCalculator)
         {
             _productService = productService;
+            _ruleCalculator = ruleCalculator;
         }
 
         /// <summary>
@@ -30,6 +36,15 @@ namespace Reseller.WebApi.Controllers
         public async Task<IActionResult> GetProducts()
         {
             var products = await _productService.GetProducts();
+
+            var sumRegular = _ruleCalculator.Calculate(Rule.RegularPrice, products);
+            var sumDiscount = _ruleCalculator.Calculate(Rule.Discount, products);
+
+            var priceComparison = new PriceComparisonDto()
+            {
+                DiscountPrice = sumDiscount,
+                RegularPrice = sumRegular
+            };
             // TODO map to dto with Automapper
             var productsDto = new List<ProductDto>();
 
@@ -46,7 +61,7 @@ namespace Reseller.WebApi.Controllers
                 });
             }
 
-            return Ok(productsDto);
+            return Ok(new {productsDto, priceComparison});
         }
     }
 }
